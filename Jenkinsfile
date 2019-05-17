@@ -22,7 +22,7 @@ node{
         stage('sonar')
         {
           try{
-		       sh "mnv sonar:sonar"
+		       sh "mvn sonar:sonar"
 			 }
 		  catch(error)
 		  {
