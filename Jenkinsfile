@@ -26,7 +26,7 @@ node{
 			 }
 		  catch(error)
 		  {
-		    echo "sonar servers could not reached $(error)"
+		    echo "sonar servers could not reached ${error}"
           }
         }
 
