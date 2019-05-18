@@ -1,8 +1,8 @@
 def DOCKER_HUB_USER="dhiraj2029"
-def HTTP_PORT="8090"
+
 def CONTAINER_NAME = "jenkins-pipeline"
 def CONTAINER_TAG = "latest"
-
+def HTTP_PORT = "8090"
 node{
        stage('initilize')
 	   {
@@ -46,7 +46,7 @@ node{
 def imagePrune(conatinerName){
 	try{
 	     sh "docker image prune -f"
-		 sh "dokcer stop image $conatinerName"
+		 sh "dokcer stop $conatinerName"
 		}
 	catch(error){}
 	}
