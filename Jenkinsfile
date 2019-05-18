@@ -72,13 +72,14 @@ def imageBuild(conatinerName,tag){
 	catch(error){}
 	}
     
-def pushToImage(conatinerName,tag,dockeruser,password)
+def pushToImage(conatinerName,tag,dockeruser,password){
     try{
 	     sh "docker login -u $dockeruser -p $password"
 		 sh "docker tag $conatinerName:$tag $dockeruser/$conatinerName:$tag"
 		 sh "docker push $dockeruser/$conatinerName:$tag"
 		}
 	catch(error){}
+	}
 
 def runApp(conatinerName,tag,user,port)
 {
