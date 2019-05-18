@@ -31,16 +31,29 @@ node{
 		    echo "sonar servers could not reached ${error}"
           }
         }
-		 stage("image Prune")
+		 stage('image Prune')
 		 {
 		   imagePrune(CONTAINER_NAME)
 		 }
        
-	    stage("image build")
+	    stage('image build')
 		{
 		  imageBuild(CONTAINER_NAME,CONTAINER_TAG)
 		}
+		
+		stage('Push to Image')
+		{
+           withCredentials([usernamePassword(credentialsId: 'dockerHubAccount', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
+        }
+    }
+	
+	    stage('run application')
+		{
+		  runApp(CONTAINER_NAME,CONTAINER_TAG,DOCKER_HUB_USER,HTTP_PORT)
+		 }
 		 
+		
     }	
 
 def imagePrune(conatinerName){
@@ -59,3 +72,22 @@ def imageBuild(conatinerName,tag){
 	catch(error){}
 	}
     
+def pushToImage(conatinerName,tag,dockeruser,password)
+    try{
+	     sh "docker login -u $dockeruser -p $password"
+		 sh "docker tag $conatinerName:$tag $dockeruser/$conatinerName:$tag"
+		 sh "docker push $dockeruser/$conatinerName:$tag"
+		}
+	catch(error){}
+
+def runApp(conatinerName,tag,user,port)
+{
+   try{
+        sh "docker pull $dockeruser/$conatinerName:$tag"
+        sh "docker run -d --rm -p $port:$port --name $conatinerName $dockeruser/$conatinerName:$tag"
+        echo "application is running on port - ${port}"
+      }
+
+    catch(error){}
+}	
+	
