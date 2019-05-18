@@ -46,12 +46,12 @@ node{
 def imagePrune(conatinerName){
 	try{
 	     sh "docker image prune -f"
-		 sh "docker stop $conatinerName"
+		 sh "dokcer stop $conatinerName"
 		}
 	catch(error){}
 	}
 	
-def ImageBuild(conatinerName,tag){
+def imageBuild(conatinerName,tag){
     try{
 	     sh "docker build -t $conatinerName:$tag -t $conatinerName --pull --no-cache ."
 		 echo "Image buile complete"
