@@ -72,7 +72,7 @@ def imageBuild(conatinerName,tag){
 	catch(error){}
 	}
     
-def imagePush(conatinerName,tag,dockeruser,password)
+def pushToImage(conatinerName,tag,dockeruser,password)
     try{
 	     sh "docker login -u $dockeruser -p $password"
 		 sh "docker tag $conatinerName:$tag $dockeruser/$conatinerName:$tag"
