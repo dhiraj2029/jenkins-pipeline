@@ -46,7 +46,8 @@ node{
            withCredentials([usernamePassword(credentialsId: 'dockerHubAccount', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
         }
-    }
+		}
+    
 	
 	    stage('run application')
 		{
@@ -84,8 +85,8 @@ def pushToImage(conatinerName,tag,dockeruser,password){
 def runApp(conatinerName,tag,user,port)
 {
    try{
-        sh "docker pull $dockeruser/$conatinerName:$tag"
-        sh "docker run -d --rm -p $port:$port --name $conatinerName $dockeruser/$conatinerName:$tag"
+        sh "docker pull $user/$conatinerName:$tag"
+        sh "docker run -d --rm -p $port:$port --name $conatinerName $user/$conatinerName:$tag"
         echo "application is running on port - ${port}"
       }
 
